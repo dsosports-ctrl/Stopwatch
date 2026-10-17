@@ -1,0 +1,428 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- Dynamic Total Time (Second) Swapping Classes --- */
+.total-number-badge.bg-red {
+    background: #ef4444 !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+}
+
+.total-number-badge.bg-green {
+    background: #22c55e !important;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.5) !important;
+}
+
+/* --- Dynamic Holding Time Row Swapping Classes --- */
+.matrix-column .matrix-item.hold-red {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+}
+.matrix-column .matrix-item.hold-red .matrix-label {
+    color: #ef4444 !important;
+}
+.matrix-column .matrix-item.hold-red .matrix-time {
+    color: #fca5a5 !important;
+}
+
+.matrix-column .matrix-item.hold-sky {
+    background: rgba(56, 189, 248, 0.1) !important;
+    border-color: rgba(56, 189, 248, 0.4) !important;
+}
+.matrix-column .matrix-item.hold-sky .matrix-label {
+    color: #38bdf8 !important;
+}
+.matrix-column .matrix-item.hold-sky .matrix-time {
+    color: #bae6fd !important;
+}
+
+body {
+    background-color: #0b0d13;
+    font-family: 'Outfit', sans-serif;
+    color: #ffffff;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at left, #161a24 0%, #0b0d13 100%);
+}
+
+.left-panel {
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.right-panel {
+    flex: 0.7;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    background: rgba(0, 0, 0, 0.2);
+    justify-content: center;
+}
+
+.premium-total-badge {
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 8px 8px 24px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 35px;
+}
+
+.total-title-text {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #cbd5e1;
+}
+
+.total-number-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 28px;
+    font-weight: 800;
+    background: #0284c7;
+    color: #ffffff;
+    padding: 6px 22px;
+    border-radius: 50px;
+    box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+    display: inline-block;
+    min-width: 70px;
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brand-title {
+    font-family: 'Teko', sans-serif;
+    font-size: 55px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    line-height: 1;
+    color: #38bdf8;
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+#display {
+    font-family: 'Share Tech Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 10vw;
+    font-weight: bold;
+    color: #00ffcc;
+    text-shadow: 0 0 50px rgba(0, 255, 204, 0.3);
+    line-height: 1;
+    margin-bottom: 50px;
+    text-align: center;
+    letter-spacing: -2px;
+}
+
+#ms {
+    font-size: 6.5vw;
+    color: #38bdf8;
+    text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+}
+
+.buttons-row {
+    display: flex;
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn {
+    flex: 1;
+    padding: 20px 0;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.start {
+    background: linear-gradient(135deg, #00ffcc 0%, #0284c7 100%);
+    color: #0b0d13;
+    box-shadow: 0 8px 25px rgba(0, 255, 204, 0.25);
+}
+
+.stop {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.25);
+}
+
+.reset-state {
+    background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 25px rgba(244, 63, 94, 0.35);
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+    filter: brightness(1.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.history-section {
+    width: 100%;
+}
+
+.history-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #64748b;
+    margin-bottom: 12px;
+    border-left: 3px solid #38bdf8;
+    padding-left: 10px;
+    text-transform: uppercase;
+}
+
+.matrix-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.matrix-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 46px;
+}
+
+.matrix-item.filled {
+    background: rgba(0, 255, 204, 0.03);
+    border-color: rgba(0, 255, 204, 0.2);
+}
+
+.matrix-label {
+    font-weight: bold;
+    color: #64748b;
+    font-size: 16px;
+}
+
+.matrix-item.filled .matrix-label {
+    color: #38bdf8;
+}
+
+.matrix-time {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #475569;
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.matrix-item.filled .matrix-time {
+    color: #cbd5e1;
+}
+
+.matrix-actions {
+    display: flex;
+    align-items: center;
+    min-width: 50px;
+    justify-content: flex-end;
+}
+
+.inline-delete-btn {
+    background: transparent;
+    color: #ef4444;
+    border: none;
+    font-size: 12px;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.matrix-item.filled:hover .inline-delete-btn {
+    opacity: 1;
+    pointer-events: auto;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.inline-delete-btn:hover {
+    background: #ef4444 !important;
+    color: #ffffff;
+}
+
+/* --- Modal Style --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-box {
+    background: #161a24;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.05);
+    padding: 30px 40px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active .modal-box {
+    transform: scale(1);
+}
+
+.modal-box h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #38bdf8;
+    margin-bottom: 12px;
+}
+
+.modal-box p {
+    font-size: 15px;
+    color: #94a3b8;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Outfit', sans-serif;
+}
+
+.modal-btn.yes {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
+}
+
+.modal-btn.no {
+    background: #21262d;
+    color: #cbd5e1;
+    border: 1px solid #30363d;
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* --- यहाँ मोबाइल के लिए विशेष परफेक्ट सेंटर कोड अपडेट किया गया है --- */
+@media (max-width: 900px) {
+    body {
+        overflow-y: auto; /* मोबाइल पर जरूरत पड़ने पर वर्टिकल स्क्रॉलिंग की अनुमति */
+    }
+    
+    .dashboard-container { 
+        flex-direction: column; 
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .left-panel, .right-panel { 
+        flex: none; 
+        width: 100%; 
+        padding: 30px 20px;
+        align-items: center; /* सब कुछ बीच में लाने के लिए */
+        text-align: center;
+    }
+    
+    .left-panel { 
+        border-right: none; 
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+    }
+    
+    /* मोबाइल डिस्प्ले साइज को एडजस्ट किया */
+    #display { 
+        font-size: 18vw; 
+        margin-bottom: 30px;
+    }
+    #ms { 
+        font-size: 11vw; 
+    }
+    
+    /* बैज और बटन्स को मोबाइल स्क्रीन के केंद्र में फिट करना */
+    .premium-total-badge {
+        max-width: 90%;
+        justify-content: center;
+    }
+    
+    .buttons-row {
+        max-width: 90%;
+        justify-content: center;
+    }
+    
+    /* होल्डिंग टाइम सेक्शन को मोबाइल पर संरेखित करना */
+    .history-section {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+    
+    .history-title {
+        text-align: left; /* टाइटल इंडिकेटर को साफ़ रखने के लिए */
+    }
+    
+    .matrix-column {
+        max-width: 100%;
+    }
+}

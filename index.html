@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIME JUDGE - Dynamic Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Share+Tech+Mono&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <!-- Left Panel: Performance Time, Title, Display & Controls -->
+        <div class="left-panel">
+            <div id="totalTimeContainer" class="premium-total-badge" style="visibility: hidden;">
+                <span class="total-title-text">TOTAL TIME IN SECOND</span>
+                <span id="totalDisplay" class="total-number-badge">0</span>
+            </div>
+
+            <div class="brand-title">TIME JUDGE</div>
+            <div id="display">00:00<span id="ms">.00</span></div>
+            
+            <div class="buttons-row">
+                <button id="mainBTN" class="btn start">Start</button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Slim A1 to A10 column -->
+        <div class="right-panel">
+            <div class="history-section">
+                <div class="history-title">Holding Time</div>
+                <div class="matrix-column" id="singleColumn"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Custom Blur Modal Popup -->
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Are you sure?</h2>
+            <p>This will reset all 10 asana records and the total time.</p>
+            <div class="modal-buttons">
+                <button id="modalYes" class="modal-btn yes">Yes, Reset</button>
+                <button id="modalNo" class="modal-btn no">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
