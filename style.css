@@ -74,7 +74,7 @@ body {
 }
 
 #totalTimeContainer {
-    visibility: visible !important; /* हमेशा परमानेंट विज़ुअल रखने के लिए */
+    visibility: visible !important;
 }
 
 .premium-total-badge {
@@ -241,13 +241,13 @@ body {
 .matrix-actions {
     display: flex;
     align-items: center;
-    min-width: 50px;
+    min-width: 60px;
     justify-content: flex-end;
 }
 
-.inline-delete-btn {
+/* इनलाइन डिलीट और इनलाइन एडिट बटन स्टाइल्स */
+.inline-delete-btn, .inline-edit-btn {
     background: transparent;
-    color: #ef4444;
     border: none;
     font-size: 12px;
     font-family: 'Outfit', sans-serif;
@@ -255,19 +255,39 @@ body {
     opacity: 0;
     pointer-events: none;
     transition: all 0.2s ease;
-    padding: 2px 6px;
+    padding: 4px 8px;
     border-radius: 4px;
 }
 
+.inline-delete-btn {
+    color: #ef4444;
+}
+
+.inline-edit-btn {
+    color: #38bdf8;
+}
+
+/* होवर करने पर बटन्स दिखाई देंगी */
 .matrix-item.filled:hover .inline-delete-btn {
     opacity: 1;
     pointer-events: auto;
     background: rgba(239, 68, 68, 0.1);
 }
 
+.matrix-item:not(.filled):hover .inline-edit-btn {
+    opacity: 1;
+    pointer-events: auto;
+    background: rgba(56, 189, 248, 0.1);
+}
+
 .inline-delete-btn:hover {
     background: #ef4444 !important;
     color: #ffffff;
+}
+
+.inline-edit-btn:hover {
+    background: #38bdf8 !important;
+    color: #0b0d13;
 }
 
 /* --- Modal Style --- */
