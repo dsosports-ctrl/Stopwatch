@@ -91,6 +91,34 @@ function updateTotalTime() {
     }
 }
 
+// खाली स्लॉट में मैनुअल टाइम भरने का फंक्शन
+function manualInputTime(index) {
+    const userInput = prompt("मैनुअल टाइम दर्ज करें (SS.MS फॉर्मेट में, जैसे 04.50 या 5.20):");
+    if (userInput === null) return; // Cancel करने पर बाहर निकलें
+
+    const timeFloat = parseFloat(userInput);
+    if (isNaN(timeFloat) || timeFloat < 0) {
+        alert("कृपया एक वैध नंबर दर्ज करें (उदा. 04.50)");
+        return;
+    }
+
+    // सेकंड को मिलीसेकंड में बदलें
+    const timeMs = Math.round(timeFloat * 1000);
+    
+    // डेटा अपडेट करें
+    asanaSlots[index] = timeMs;
+    syncAsanaCount();
+    updateMainButtonState();
+    renderMatrix();
+
+    // अगर पहला आसन मैनुअल भरा गया है और मुख्य टाइमर शुरू नहीं है, तो टोटल टाइम सेशन शुरू करें
+    if (sessionStartTime === null) {
+        sessionStartTime = Date.now();
+        sessionInterval = setInterval(updateTotalTime, 10);
+    }
+    updateTotalTime();
+}
+
 function renderMatrix() {
     singleColumn.innerHTML = "";
     
@@ -121,11 +149,18 @@ function renderMatrix() {
                 deleteSlot(index);
             });
         } else {
+            // खाली स्लॉट में Edit/Manual एंट्री का बटन जोड़ा गया
             itemDiv.innerHTML = `
                 <span class="matrix-label">A${asanaNumber}</span>
                 <span class="matrix-time">--.--</span>
-                <div class="matrix-actions"></div>
+                <div class="matrix-actions">
+                    <button class="inline-edit-btn">Edit</button>
+                </div>
             `;
+            
+            itemDiv.querySelector(".inline-edit-btn").addEventListener("click", () => {
+                manualInputTime(index);
+            });
         }
         
         singleColumn.appendChild(itemDiv);
@@ -163,10 +198,14 @@ mainBTN.addEventListener("click", () => {
         clearInterval(timerInterval);
         timerInterval = null;
 
-        if (elapsedTime > 0 && asanaCount < 10) {
-            asanaSlots[asanaCount] = elapsedTime;
-            syncAsanaCount();
-            renderMatrix();
+        // खाली जगह ढूंढकर ही टाइम भरें (ताकि मैनुअल भरे हुए डेटा के ऊपर ओवरराइट न हो)
+        if (elapsedTime > 0) {
+            const nextEmptyIndex = asanaSlots.findIndex(slot => slot === null);
+            if (nextEmptyIndex !== -1 && nextEmptyIndex < 10) {
+                asanaSlots[nextEmptyIndex] = elapsedTime;
+                syncAsanaCount();
+                renderMatrix();
+            }
         }
 
         elapsedTime = 0;
