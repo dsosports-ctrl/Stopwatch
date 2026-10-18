@@ -91,32 +91,99 @@ function updateTotalTime() {
     }
 }
 
-// खाली स्लॉट में मैनुअल टाइम भरने का फंक्शन
-function manualInputTime(index) {
-    const userInput = prompt("मैनुअल टाइम दर्ज करें (SS.MS फॉर्मेट में, जैसे 04.50 या 5.20):");
-    if (userInput === null) return; // Cancel करने पर बाहर निकलें
+function saveManualSlot(index, secStr, msStr) {
+    let secVal = parseInt(secStr) || 0;
+    let msVal = parseInt(msStr) || 0;
 
-    const timeFloat = parseFloat(userInput);
-    if (isNaN(timeFloat) || timeFloat < 0) {
-        alert("कृपया एक वैध नंबर दर्ज करें (उदा. 04.50)");
-        return;
-    }
+    if (msStr.length === 1) msVal = msVal * 10;
 
-    // सेकंड को मिलीसेकंड में बदलें
-    const timeMs = Math.round(timeFloat * 1000);
+    const totalMs = (secVal * 1000) + (msVal * 10);
     
-    // डेटा अपडेट करें
-    asanaSlots[index] = timeMs;
+    asanaSlots[index] = totalMs;
+    
     syncAsanaCount();
     updateMainButtonState();
     renderMatrix();
 
-    // अगर पहला आसन मैनुअल भरा गया है और मुख्य टाइमर शुरू नहीं है, तो टोटल टाइम सेशन शुरू करें
     if (sessionStartTime === null) {
         sessionStartTime = Date.now();
         sessionInterval = setInterval(updateTotalTime, 10);
     }
     updateTotalTime();
+}
+
+function showInlineInput(index, itemDiv) {
+    const asanaNumber = index + 1;
+    const currentMs = asanaSlots[index];
+    
+    let defaultSec = "";
+    let defaultMs = "";
+    
+    if (currentMs !== null) {
+        defaultSec = String(Math.floor(currentMs / 1000)).padStart(2, '0');
+        defaultMs = String(Math.floor((currentMs % 1000) / 10)).padStart(2, '0');
+    }
+    
+    itemDiv.innerHTML = `
+        <span class="matrix-label">A${asanaNumber}</span>
+        <div class="matrix-edit-container exact-place">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="inline-text-field sec-box" placeholder="00" maxlength="2" value="${defaultSec}">
+            <span class="time-dot-field">.</span>
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="inline-text-field ms-box" placeholder="00" maxlength="2" value="${defaultMs}">
+        </div>
+        <div class="matrix-actions editing">
+            <button class="inline-cancel-btn">Cancel</button>
+        </div>
+    `;
+
+    const secInput = itemDiv.querySelector(".sec-box");
+    const msInput = itemDiv.querySelector(".ms-box");
+    const cancelBtn = itemDiv.querySelector(".inline-cancel-btn");
+
+    setTimeout(() => {
+        secInput.focus();
+        if (currentMs !== null) {
+            secInput.select();
+        }
+    }, 10);
+
+    secInput.addEventListener("input", () => {
+        secInput.value = secInput.value.replace(/[^0-9]/g, '');
+        if (secInput.value.length >= 2) {
+            msInput.focus();
+            if (currentMs !== null) {
+                msInput.select();
+            }
+        }
+    });
+
+    msInput.addEventListener("input", () => {
+        msInput.value = msInput.value.replace(/[^0-9]/g, '');
+        if (msInput.value.length >= 2) {
+            saveManualSlot(index, secInput.value, msInput.value);
+        }
+    });
+
+    msInput.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && msInput.value.length === 0) {
+            secInput.focus();
+        }
+    });
+
+    secInput.addEventListener("keypress", (e) => { 
+        if (e.key === "Enter" && secInput.value !== "") {
+            saveManualSlot(index, secInput.value, msInput.value);
+        } 
+    });
+    msInput.addEventListener("keypress", (e) => { 
+        if (e.key === "Enter" && (secInput.value !== "" || msInput.value !== "")) {
+            saveManualSlot(index, secInput.value, msInput.value);
+        } 
+    });
+
+    cancelBtn.addEventListener("click", () => {
+        renderMatrix();
+    });
 }
 
 function renderMatrix() {
@@ -140,16 +207,15 @@ function renderMatrix() {
             itemDiv.innerHTML = `
                 <span class="matrix-label">A${asanaNumber}</span>
                 <span class="matrix-time">${formattedTime}</span>
-                <div class="matrix-actions">
-                    <button class="inline-delete-btn">Delete</button>
+                <div class="matrix-actions filled-actions">
+                    <button class="inline-edit-btn">Edit</button>
                 </div>
             `;
             
-            itemDiv.querySelector(".inline-delete-btn").addEventListener("click", () => {
-                deleteSlot(index);
+            itemDiv.querySelector(".inline-edit-btn").addEventListener("click", () => {
+                showInlineInput(index, itemDiv);
             });
         } else {
-            // खाली स्लॉट में Edit/Manual एंट्री का बटन जोड़ा गया
             itemDiv.innerHTML = `
                 <span class="matrix-label">A${asanaNumber}</span>
                 <span class="matrix-time">--.--</span>
@@ -159,19 +225,12 @@ function renderMatrix() {
             `;
             
             itemDiv.querySelector(".inline-edit-btn").addEventListener("click", () => {
-                manualInputTime(index);
+                showInlineInput(index, itemDiv);
             });
         }
         
         singleColumn.appendChild(itemDiv);
     });
-}
-
-function deleteSlot(index) {
-    asanaSlots[index] = null;
-    syncAsanaCount();
-    updateMainButtonState();
-    renderMatrix();
 }
 
 renderMatrix();
@@ -198,7 +257,6 @@ mainBTN.addEventListener("click", () => {
         clearInterval(timerInterval);
         timerInterval = null;
 
-        // खाली जगह ढूंढकर ही टाइम भरें (ताकि मैनुअल भरे हुए डेटा के ऊपर ओवरराइट न हो)
         if (elapsedTime > 0) {
             const nextEmptyIndex = asanaSlots.findIndex(slot => slot === null);
             if (nextEmptyIndex !== -1 && nextEmptyIndex < 10) {
