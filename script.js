@@ -102,7 +102,6 @@ function renderMatrix() {
         if (timeMs !== null) {
             itemDiv.classList.add("filled");
             
-            // 4 सेकंड और 50 मिलीसेकंड (यानी 4500ms) से कम होने पर रेड, ज्यादा होने पर स्काई-ब्लू
             if (timeMs < 4500) {
                 itemDiv.classList.add("hold-red");
             } else {
@@ -151,7 +150,6 @@ mainBTN.addEventListener("click", () => {
     if (!isRunning) {
         if (sessionStartTime === null) {
             sessionStartTime = Date.now();
-            totalTimeContainer.style.visibility = "visible";
             sessionInterval = setInterval(updateTotalTime, 10);
         }
 
@@ -193,7 +191,6 @@ modalYes.addEventListener("click", () => {
     clearInterval(sessionInterval);
     sessionInterval = null;
     sessionStartTime = null;
-    totalTimeContainer.style.visibility = "hidden";
     totalDisplay.textContent = "0";
     totalDisplay.classList.remove('bg-red', 'bg-green');
 
