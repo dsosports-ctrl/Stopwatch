@@ -385,15 +385,54 @@ body {
 .modal-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
 @media (max-width: 900px) {
-    body { overflow-y: auto; }
-    .dashboard-container { flex-direction: column; height: auto; min-height: 100vh; }
-    .left-panel, .right-panel { flex: none; width: 100%; padding: 30px 20px; align-items: center; text-align: center; }
-    .left-panel { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-    #display { font-size: 18vw; margin-bottom: 30px; }
-    #ms { font-size: 11vw; }
-    .premium-total-badge { max-width: 90%; justify-content: center; }
-    .buttons-row { max-width: 90%; justify-content: center; }
-    .history-section { max-width: 90%; margin: 0 auto; }
-    .history-title { text-align: left; }
-    .matrix-column { max-width: 100%; }
+    body { 
+        overflow: hidden; /* पूरी स्क्रीन को लॉक रखेंगे ताकि लेआउट न बिगड़े */
+    }
+    .dashboard-container { 
+        flex-direction: column; 
+        height: 100vh; 
+    }
+    .left-panel { 
+        flex: 1; /* टाइमर वाला हिस्सा */
+        width: 100%; 
+        padding: 20px; 
+        align-items: center; 
+        text-align: center;
+        border-right: none; 
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+    }
+    .right-panel { 
+        flex: 1; /* लिस्ट वाला हिस्सा */
+        width: 100%; 
+        padding: 15px 20px; 
+        overflow-y: auto; /* यहाँ स्क्रॉल बार इनेबल किया ताकि ऑटो-स्क्रॉल काम कर सके */
+        justify-content: flex-start;
+    }
+    #display { 
+        font-size: 16vw; 
+        margin-bottom: 20px; 
+    }
+    #ms { 
+        font-size: 10vw; 
+    }
+    .premium-total-badge { 
+        max-width: 100%; 
+        justify-content: center; 
+        margin-bottom: 20px;
+    }
+    .buttons-row { 
+        max-width: 100%; 
+        justify-content: center; 
+    }
+    .history-section { 
+        width: 100%; 
+        margin: 0 auto; 
+    }
+    .history-title { 
+        text-align: left; 
+        margin-bottom: 8px;
+    }
+    .matrix-column { 
+        max-width: 100%; 
+    }
 }
