@@ -188,14 +188,17 @@ function showInlineInput(index, itemDiv) {
 
 function renderMatrix() {
     singleColumn.innerHTML = "";
+    let lastFilledIndex = -1; // आखिरी सेव हुए सेल का इंडेक्स ट्रैक करने के लिए
     
     asanaSlots.forEach((timeMs, index) => {
         const asanaNumber = index + 1;
         const itemDiv = document.createElement("div");
         itemDiv.className = "matrix-item";
+        itemDiv.setAttribute("data-index", index); // इंडेक्स को एट्रिब्यूट में सेव किया
         
         if (timeMs !== null) {
             itemDiv.classList.add("filled");
+            lastFilledIndex = index; // जैसे ही कोई फिल्ड सेल मिलेगा, यह अपडेट हो जाएगा
             
             if (timeMs < 4500) {
                 itemDiv.classList.add("hold-red");
@@ -231,7 +234,18 @@ function renderMatrix() {
         
         singleColumn.appendChild(itemDiv);
     });
+
+    // मैजिक लाइन: अगर कोई सेल सेव हुआ है, तो उसे मोबाइल स्क्रीन पर ऑटोमैटिक स्क्रॉल करके सामने लाएं
+    if (lastFilledIndex !== -1) {
+        setTimeout(() => {
+            const activeItem = singleColumn.querySelector(`[data-index="${lastFilledIndex}"]`);
+            if (activeItem) {
+                activeItem.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }, 100);
+    }
 }
+
 
 renderMatrix();
 
