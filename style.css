@@ -73,6 +73,10 @@ body {
     justify-content: center;
 }
 
+#totalTimeContainer {
+    visibility: visible !important; /* हमेशा परमानेंट विज़ुअल रखने के लिए */
+}
+
 .premium-total-badge {
     background: #1e293b;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -105,18 +109,6 @@ body {
     min-width: 70px;
     text-align: center;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.brand-title {
-    font-family: 'Teko', sans-serif;
-    font-size: 55px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    line-height: 1;
-    color: #38bdf8;
-    text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-    margin-bottom: 20px;
-    text-transform: uppercase;
 }
 
 #display {
@@ -367,10 +359,10 @@ body {
     filter: brightness(1.1);
 }
 
-/* --- यहाँ मोबाइल के लिए विशेष परफेक्ट सेंटर कोड अपडेट किया गया है --- */
+/* --- Mobile Center Fix --- */
 @media (max-width: 900px) {
     body {
-        overflow-y: auto; /* मोबाइल पर जरूरत पड़ने पर वर्टिकल स्क्रॉलिंग की अनुमति */
+        overflow-y: auto;
     }
     
     .dashboard-container { 
@@ -383,7 +375,7 @@ body {
         flex: none; 
         width: 100%; 
         padding: 30px 20px;
-        align-items: center; /* सब कुछ बीच में लाने के लिए */
+        align-items: center; 
         text-align: center;
     }
     
@@ -392,7 +384,6 @@ body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
     }
     
-    /* मोबाइल डिस्प्ले साइज को एडजस्ट किया */
     #display { 
         font-size: 18vw; 
         margin-bottom: 30px;
@@ -401,7 +392,6 @@ body {
         font-size: 11vw; 
     }
     
-    /* बैज और बटन्स को मोबाइल स्क्रीन के केंद्र में फिट करना */
     .premium-total-badge {
         max-width: 90%;
         justify-content: center;
@@ -412,14 +402,13 @@ body {
         justify-content: center;
     }
     
-    /* होल्डिंग टाइम सेक्शन को मोबाइल पर संरेखित करना */
     .history-section {
         max-width: 90%;
         margin: 0 auto;
     }
     
     .history-title {
-        text-align: left; /* टाइटल इंडिकेटर को साफ़ रखने के लिए */
+        text-align: left; 
     }
     
     .matrix-column {
